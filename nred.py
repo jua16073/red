@@ -4,11 +4,11 @@ import math as m
 
 # Arquitectura de la Red Neuronal
 nn_architecture = [
-  {"input_dim" : 2, "output_dim": 4, "activation": "relu"},
+  {"input_dim" : 784, "output_dim": 4, "activation": "relu"},
   {"input_dim" : 4, "output_dim": 6, "activation": "relu"},
   {"input_dim" : 6, "output_dim": 6, "activation": "relu"},
   {"input_dim" : 6, "output_dim": 4, "activation": "relu"},
-  {"input_dim" : 4, "output_dim": 1, "activation": "sigmoid"}
+  {"input_dim" : 4, "output_dim": 10, "activation": "sigmoid"}
 ]
 
 # //////////////////////////////////////////////
@@ -146,7 +146,10 @@ def update(params_values, grads_values, nn_architecture, learning_rate):
 
   return params_values
 
+#////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+# Entrenamiento de la Red
 def train(X, Y, nn_architecture, epochs, learning_rate):
   params_values = init_layers(nn_architecture)
   cost_history = []
@@ -155,6 +158,7 @@ def train(X, Y, nn_architecture, epochs, learning_rate):
   for i in range(epochs):
     Y_hat, cache = full_backward_propagation(X, params_values, nn_architecture)
     cost = get_cost_value(Y_hat, Y)
+    print(cost)
     cost_history.append(cost)
     #accuracy = get_accuracy_value(Y_hat, Y)
     #accuracy_history.append(accuracy)
@@ -163,3 +167,7 @@ def train(X, Y, nn_architecture, epochs, learning_rate):
     params_values = update(params_values, grads_values, nn_architecture, learning_rate)
   
   return params_values, cost_history, accuracy_history
+
+def predict(parameters, X):
+  respuesta, history = full_forward_propagation(X, parameters)
+  return respuesta
